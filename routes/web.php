@@ -33,13 +33,3 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/vendor-reset-password', 'vendor_reset_password_request')->name('vendor-reset-password');
 
 });
-
-
-// lst 
-// shahbaz@listandsell.de
-// shahbazlist
-// Shahbaz_1234#
-// // pros-----
-// shahbazalisoft15@gmail.com
-// shahbazalisoft
-// Software@1994

@@ -71,7 +71,7 @@
                                             {{ translate('Create_ads_to_get_highlighted_on_the_app_and_web_browser') }}
                                         </p>
                                     </div>
-                                    <a href="{{ route('vendor.advertisement.create') }}" class="btn btn-white text-nowrap font-semibold text-dark">{{ translate('Create_Ads') }}</a>
+                                    <a href="" class="btn btn-white text-nowrap font-semibold text-dark">{{ translate('Create_Ads') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -90,24 +90,24 @@
                     <div class="col-md-3">
                         <select class="custom-select order_stats_update" name="statistics_type">
                             <option
-                                value="overall" {{$params['statistics_type'] == 'overall'?'selected':''}}>
+                                value="overall" {{1 == 'overall'?'selected':''}}>
                                 {{translate('messages.Overall Statistics')}}
                             </option>
                             <option
-                                value="today" {{$params['statistics_type'] == 'today'?'selected':''}}>
+                                value="today" {{2 == 'today'?'selected':''}}>
                                 {{translate("messages.Today's Statistics")}}
                             </option>
                             <option
-                                value="this_month" {{$params['statistics_type'] == 'this_month'?'selected':''}}>
+                                value="this_month" {{3 == 'this_month'?'selected':''}}>
                                 {{translate("messages.This Month's Statistics")}}
                             </option>
                         </select>
                     </div>
                 </div>
                 <div class="py-2"></div>
-                <div class="row g-2" id="order_stats">
+                {{-- <div class="row g-2" id="order_stats">
                     @include('vendor-views.partials._dashboard-order-stats',['data'=>$data])
-                </div>
+                </div> --}}
             </div>
         </div>
 
@@ -120,14 +120,14 @@
                         <div class="row mb-2 align-items-center">
                             <div class="col-sm mb-2 mb-sm-0">
                                 <div class="d-flex flex-wrap justify-content-center align-items-center">
-                                    @php($amount=array_sum($earning))
+                                   
                                     <span class="h5 m-0 mr-3 fz--11 d-flex align-items-center mb-2 mb-md-0">
                                         <span class="legend-indicator chart-bg-2"></span>
-                                        {{translate('messages.total_earning')}} : <span>{{\App\CentralLogics\Helpers::format_currency(array_sum($earning))}}</span>
+                                        {{translate('messages.total_earning')}} : <span>23</span>
                                     </span>
                                     <span class="h5 m-0 fz--11 d-flex align-items-center mb-2 mb-md-0">
                                         <span class="legend-indicator chart-bg-3"></span>
-                                        {{translate('messages.commission_given')}} : <span>{{\App\CentralLogics\Helpers::format_currency(array_sum($commission))}}</span>
+                                        {{translate('messages.commission_given')}} : <span>34</span>
                                     </span>
                                 </div>
 
@@ -152,13 +152,13 @@
                             "data": {
                               "labels": ["Jan","Feb","Mar","April","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
                               "datasets": [{
-                                "data": [{{$earning[1]}},{{$earning[2]}},{{$earning[3]}},{{$earning[4]}},{{$earning[5]}},{{$earning[6]}},{{$earning[7]}},{{$earning[8]}},{{$earning[9]}},{{$earning[10]}},{{$earning[11]}},{{$earning[12]}}],
+                                "data": [2,3,4,5,6,7,8,9,10,11,12,13],
                                 "backgroundColor": "#00AA96",
                                 "hoverBackgroundColor": "#00AA96",
                                 "borderColor": "#00AA96"
                               },
                               {
-                                "data": [{{$commission[1]}},{{$commission[2]}},{{$commission[3]}},{{$commission[4]}},{{$commission[5]}},{{$commission[6]}},{{$commission[7]}},{{$commission[8]}},{{$commission[9]}},{{$commission[10]}},{{$commission[11]}},{{$commission[12]}}],
+                                "data": [1,2,3,4,5,6,7,8,9,10,11,12],
                                 "backgroundColor": "#b9e0e0",
                                 "borderColor": "#b9e0e0"
                               }]
@@ -173,7 +173,7 @@
                                   },
                                   "ticks": {
                                     "beginAtZero": true,
-                                    "stepSize": {{$amount>1?20000:1}},
+                                    "stepSize": 1,
                                     "fontSize": 12,
                                     "fontColor": "#97a4af",
                                     "fontFamily": "Open Sans, sans-serif",
@@ -217,7 +217,7 @@
                 <!-- End Card -->
             </div>
 
-            <div class="col-lg-6 mt-3">
+            {{-- <div class="col-lg-6 mt-3">
                 <!-- Card -->
                 <div class="card h-100" id="top-selling-items-view">
                     @include('vendor-views.partials._top-selling-items',['top_sell'=>$data['top_sell']])
@@ -231,7 +231,7 @@
                     @include('vendor-views.partials._most-rated-items',['most_rated_items'=>$data['most_rated_items']])
                 </div>
                 <!-- End Card -->
-            </div>
+            </div> --}}
 
 
         </div>

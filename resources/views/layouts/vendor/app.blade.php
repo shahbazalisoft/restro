@@ -425,7 +425,7 @@
 
         function conversationList() {
             $.ajax({
-                url: "{{ route('vendor.message.list') }}",
+                url: "",
                 success: function(data) {
                     $('#conversation-list').empty();
                     $("#conversation-list").append(data.html);
@@ -487,7 +487,7 @@
         @if(\App\CentralLogics\Helpers::employee_module_permission_check('order') && $order_notification_type == 'manual')
         setInterval(function () {
             $.get({
-                url: '{{route('vendor.get-store-data')}}',
+                url: '',
                 dataType: 'json',
                 success: function (response) {
                     let data = response.data;
@@ -594,7 +594,7 @@
 
                                 $.ajax({
                                     type: 'POST',
-                                    url: '{{ route('vendor.store.clicked.route') }}',
+                                    url: '',
                                     data: {
                                         routeName: routeName,
                                         routeUri: routeUri,
@@ -637,7 +637,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: '{{ route('vendor.recent.search') }}',
+                url: '',
                 success: function (response) {
                     if (response.length === 0) {
                         $('#searchResults').html('<div class="text-center text-muted py-5">{{translate('It appears that you have not yet searched.')}}.</div>');
@@ -660,7 +660,7 @@
 
                             $.ajax({
                                 type: 'POST',
-                                url: '{{ route('vendor.store.clicked.route') }}',
+                                url: '',
                                 data: {
                                     routeName: routeName,
                                     routeUri: routeUri,

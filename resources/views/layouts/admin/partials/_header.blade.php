@@ -20,83 +20,6 @@
                 <!-- Navbar -->
                 <ul class="navbar-nav align-items-center flex-row flex-grow-1 __navbar-nav">
 
-                    <li class="nav-item __nav-item">
-                        <a href="" id="tourb-6"
-                           class="__nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
-                            <img src="{{asset('/public/assets/admin/img/new-img/user.svg')}}" alt="public/img">
-                            <span>{{ translate('Users')}}</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item __nav-item">
-                        <a href="" id="tourb-7"
-                           class="__nav-link {{ Request::is('admin/transactions*') ? 'active' : '' }}">
-                            <img src="{{asset('/public/assets/admin/img/new-img/transaction-and-report.svg')}}"
-                                 alt="public/img">
-                            <span>{{ translate('Transactions & Reports')}}</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item __nav-item">
-                        <a href="" id="tourb-3"
-                           class="__nav-link {{ Request::is('admin/business-settings*') ? 'active' : '' }}">
-                            <img src="{{asset('/public/assets/admin/img/new-img/setting-icon.svg')}}" alt="public/img">
-                            <span>{{ translate('messages.Settings') }}</span>
-                            <svg width="14" viewBox="0 0 14 14" fill="none">
-                                <path d="M2.33325 5.25L6.99992 9.91667L11.6666 5.25" stroke="#006161" stroke-width="1.5"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </a>
-                        <div class="__nav-module" id="tourb-4">
-                            <div class="__nav-module-header">
-                                <div class="inner">
-                                    <h4>{{translate('Settings')}}</h4>
-                                    <p>
-                                        {{translate('Monitor your business general settings from here')}}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="__nav-module-body">
-                                <ul>
-                                        <li>
-                                            <a href=""
-                                               class="next-tour">
-                                                <img
-                                                    src="{{asset('/public/assets/admin/img/navbar-setting-icon/business.svg')}}"
-                                                    alt="">
-                                                <span>{{translate('Business Settings')}}</span>
-                                            </a>
-                                        </li>
-
-                                    {{-- @if (\App\CentralLogics\Helpers::module_permission_check('settings')) --}}
-                                        <li>
-                                            <a href=""
-                                               class="next-tour">
-                                                <img
-                                                    src="{{asset('/public/assets/admin/img/navbar-setting-icon/third-party.svg')}}"
-                                                    alt="">
-                                                <span>{{translate('3rd Party')}}</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href=""
-                                               class="next-tour">
-                                                <img
-                                                    src="{{asset('/public/assets/admin/img/navbar-setting-icon/social.svg')}}"
-                                                    alt="">
-                                                <span>{{translate('Social Media and Page Setup')}}</span>
-                                            </a>
-                                        </li>
-                                    {{-- @endif --}}
-                                </ul>
-                                <div class="text-center mt-2">
-                                    <a href=""
-                                       class="next-tour">{{translate('View All')}}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
 
                     <li class="nav-item max-sm-m-0 w-xxl-200px ml-auto flex-grow-0">
                         <button type="button" id="modalOpener" class="title-color bg--secondary border-0 rounded justify-content-between w-100 align-items-center py-2 px-2 px-md-3 d-flex gap-1" data-toggle="modal" data-target="#staticBackdrop">
@@ -146,6 +69,9 @@
                                 @endif
                             </div>
                         </div>
+                    </li>
+                    <li class="nav-item __nav-item">
+                        
                     </li>
                 </ul>
                 <!-- End Navbar -->

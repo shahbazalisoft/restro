@@ -15,12 +15,17 @@ use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\RetailerController;
+use App\Http\Controllers\Admin\SystemController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\VendorController;
 
 
 Route::middleware(['web', 'admin'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('settings', [SystemController::class, 'settings'])->name('settings');
+    Route::post('settings', [SystemController::class, 'settings_update']);
+    Route::post('settings-password', [SystemController::class, 'settings_password_update'])->name('settings-password');
+
 
     Route::prefix('language')->as('language.')->controller(LanguageController::class)->group(function () {
         Route::get('', 'index')->name('index');
