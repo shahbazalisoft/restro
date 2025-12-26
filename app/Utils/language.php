@@ -9,23 +9,26 @@ if (!function_exists('translate')) {
         $local = getDefaultLanguage();
         App::setLocale($local);
 
+        // 🔥 THIS LINE WAS MISSING
+        $key = strpos($key, 'messages.') === 0 ? substr($key, 9) : $key;
         try {
-            $lang_array = include(base_path('resources/lang/' . $local . '/messages.php'));
+            $lang_array = include base_path("resources/lang/$local/messages.php");
             $processed_key = ucfirst(str_replace('_', ' ', removeSpecialCharacters($key)));
             $key = removeSpecialCharacters($key);
+
             if (!array_key_exists($key, $lang_array)) {
                 $lang_array[$key] = $processed_key;
-                $str = "<?php return " . var_export($lang_array, true) . ";";
-                file_put_contents(base_path('resources/lang/' . $local . '/messages.php'), $str);
-                $result = $processed_key;
-            } else {
-                $result = __('messages.' . $key);
+                file_put_contents(
+                    base_path("resources/lang/$local/messages.php"),
+                    "<?php return " . var_export($lang_array, true) . ";"
+                );
+                return $processed_key;
             }
-        } catch (\Exception $exception) {
-            $result = __('messages.' . $key);
-        }
 
-        return $result;
+            return __('messages.' . $key);
+        } catch (\Exception $e) {
+            return __('messages.' . $key);
+        }
     }
 }
 
@@ -49,14 +52,14 @@ if (!function_exists('getDefaultLanguage')) {
             $data = getWebConfig('language');
             $code = 'en';
             $direction = 'ltr';
-            // foreach ($data as $ln) {
-            //     if (array_key_exists('default', $ln) && $ln['default']) {
-            //         $code = $ln['code'];
-            //         if (array_key_exists('direction', $ln)) {
-            //             $direction = $ln['direction'];
-            //         }
-            //     }
-            // }
+            foreach ($data as $ln) {
+                if (array_key_exists('default', $ln) && $ln['default']) {
+                    $code = $ln['code'];
+                    if (array_key_exists('direction', $ln)) {
+                        $direction = $ln['direction'];
+                    }
+                }
+            }
             session()->put('local', $code);
             Session::put('direction', $direction);
             $lang = $code;

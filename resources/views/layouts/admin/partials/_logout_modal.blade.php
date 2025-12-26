@@ -45,7 +45,7 @@
 
                             <div class="dropdown-divider"></div>
 
-                            <a class="dropdown-item" href="">
+                            <a class="dropdown-item" href="{{route('admin.settings')}}">
                                 <span class="text-truncate pr-2" title="Settings">{{translate('messages.settings')}}</span>
                             </a>
 

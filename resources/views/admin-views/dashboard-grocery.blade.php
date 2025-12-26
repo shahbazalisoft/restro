@@ -17,14 +17,14 @@
                         <img class="onerror-image" data-onerror-image="{{asset('/public/assets/admin/img/grocery.svg')}}" src=""
                         width="38" alt="img">
                         <div class="w-0 flex-grow pl-2">
-                            <h1 class="page-header-title mb-0">APPPPPP {{translate('messages.Dashboard')}}.</h1>
-                            <p class="page-header-text m-0">{{translate('Hello, Here You Can Manage Your')}} APPPPP {{translate('orders by Zone.')}}</p>
+                            <h1 class="page-header-title mb-0">{{translate('messages.Dashboard')}}.</h1>
+                            <p class="page-header-text m-0">{{translate('Hello, Here You Can Manage Your')}} {{translate('orders by Zone.')}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-auto min--280">
                     <select name="zone_id" class="form-control js-select2-custom fetch_data_zone_wise" >
-                        <option value="all">{{ translate('messages.All_Zones') }}</option>
+                        <option value="all">{{ translate('messages.All') }}</option>
                     </select>
                 </div>
             </div>
@@ -204,111 +204,6 @@
             </div>
         </div>
         <!-- End Stats -->
-
-        <div class="row g-2">
-            <div class="col-lg-8 col--xl-8">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex flex-wrap justify-content-between align-items-center __gap-12px">
-                            <div class="__gross-amount" id="gross_sale">
-                                <h6>2</h6>
-                                <span>{{ translate('messages.Gross Sale') }}</span>
-                            </div>
-                            <div class="chart--label __chart-label p-0 move-left-100 ml-auto">
-                                <span class="indicator chart-bg-2"></span>
-                                <span class="info">
-                                    {{ translate('sale') }} ({{ date("Y") }})
-                                </span>
-                            </div>
-                            <select class="custom-select border-0 text-center w-auto ml-auto commission_overview_stats_update" name="commission_overview">
-                                    <option
-                                    value="this_year" {{23 == 'this_year'?'selected':''}}>
-                                    {{translate('This year')}}
-                                </option>
-                                <option
-                                    value="this_month" {{3 == 'this_month'?'selected':''}}>
-                                    {{translate('This month')}}
-                                </option>
-                                <option
-                                    value="this_week" {{5 == 'this_week'?'selected':''}}>
-                                    {{translate('This week')}}
-                                </option>
-                            </select>
-                        </div>
-                        <div id="commission-overview-board">
-
-                            <div id="grow-sale-chart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col--xl-4">
-                <!-- Card -->
-                <div class="card h-100">
-                    <!-- Header -->
-                    <div class="card-header border-0">
-                        <h5 class="card-header-title">
-                            {{translate('User Statistics')}}
-                        </h5>
-                        <select class="custom-select border-0 text-center w-auto user_overview_stats_update" name="user_overview">
-                                <option
-                                value="this_year" {{2 == 'this_year'?'selected':''}}>
-                                {{translate('This year')}}
-                            </option>
-                            <option
-                                value="this_month" {{3 == 'this_month'?'selected':''}}>
-                                {{translate('This month')}}
-                            </option>
-                            <option
-                                value="this_week" {{5 == 'this_week'?'selected':''}}>
-                                {{translate('This week')}}
-                            </option>
-                            <option
-                                value="overall" {{6 == 'overall'?'selected':''}}>
-                                {{translate('messages.Overall')}}
-                            </option>
-                        </select>
-                    </div>
-                    <!-- End Header -->
-
-                    <!-- Body -->
-                    <div class="card-body" id="user-overview-board">
-                        <div class="position-relative pie-chart">
-                            <div id="dognut-pie"></div>
-                            <!-- Total Orders -->
-                            <div class="total--orders">
-                                <h3 class="text-uppercase mb-xxl-2">23</h3>
-                                <span class="text-capitalize">{{translate('messages.total_users')}}</span>
-                            </div>
-                            <!-- Total Orders -->
-                        </div>
-                        <div class="d-flex flex-wrap justify-content-center mt-4">
-                            <div class="chart--label">
-                                <span class="indicator chart-bg-1"></span>
-                                <span class="info">
-                                    {{translate('messages.customer')}} 3
-                                </span>
-                            </div>
-                            <div class="chart--label">
-                                <span class="indicator chart-bg-2"></span>
-                                <span class="info">
-                                    {{translate('messages.store')}} 5
-                                </span>
-                            </div>
-                            <div class="chart--label">
-                                <span class="indicator chart-bg-3"></span>
-                                <span class="info">
-                                    {{translate('messages.delivery_man')}} 6
-                                </span>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Body -->
-                </div>
-            </div>
-
-        </div>
         
         <!-- Page Header -->
         <div class="page-header">

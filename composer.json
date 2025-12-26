@@ -24,6 +24,7 @@
     "autoload": {
         "files": [
             "app/CentralLogics/Helpers.php",
+            "app/helpers.php",
             "app/Utils/language.php",
             "app/Utils/settings.php",
             "app/Utils/constant.php"

@@ -260,9 +260,9 @@ class LoginController extends Controller
                 $employee->is_logged_in = 1;
                 $employee->save();
             }
-            if(Helpers::get_store_data()?->module_type == 'rental' && addon_published_status('Rental')){
-                return redirect()->route('vendor.providerDashboard')->withCookies($forgetCookies);
-            }
+            // if(Helpers::get_store_data()?->module_type == 'rental' && addon_published_status('Rental')){
+            //     return redirect()->route('vendor.providerDashboard')->withCookies($forgetCookies);
+            // }
             return redirect()->route('vendor.dashboard')->withCookies($forgetCookies);
         }
         RateLimiter::hit($key, $decayMinutes * 60);

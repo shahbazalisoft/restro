@@ -3,6 +3,8 @@
 namespace App\CentralLogics;
 
 use App\Models\BusinessSetting;
+use App\Models\Currency;
+use App\Models\DataSetting;
 use DateTime;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
@@ -223,4 +225,120 @@ class Helpers
 
         return false;
     }
+
+    //Mail Config Check
+    public static function remove_invalid_charcaters($str)
+    {
+        return str_ireplace(['\'', '"', ';', '<', '>'], ' ', $str);
+    }
+
+    public static function get_login_url($type)
+    {
+        $data = DataSetting::whereIn('key', ['store_employee_login_url', 'store_login_url', 'admin_employee_login_url', 'admin_login_url'
+        ])->pluck('key', 'value')->toArray();
+
+        return array_search($type, $data);
+    }
+
+    public static function update(string $dir, $old_image, string $format, $image = null)
+    {
+        if ($image == null) {
+            return $old_image;
+        }
+        try {
+            if (Storage::disk(self::getDisk())->exists($dir . $old_image)) {
+                Storage::disk(self::getDisk())->delete($dir . $old_image);
+            }
+        } catch (\Exception $e) {
+        }
+        $imageName = Helpers::upload($dir, $format, $image);
+        return $imageName;
+    }
+
+    public static function upload(string $dir, string $format, $image = null)
+    {
+        try {
+            if ($image != null) {
+                $format = $image->getClientOriginalExtension();
+                $imageName = \Carbon\Carbon::now()->toDateString() . "-" . uniqid() . "." . $format;
+                if (!Storage::disk(self::getDisk())->exists($dir)) {
+                    Storage::disk(self::getDisk())->makeDirectory($dir);
+                }
+                Storage::disk(self::getDisk())->putFileAs($dir, $image, $imageName, ['visibility' => 'public']);
+            } else {
+                $imageName = 'def.png';
+            }
+        } catch (\Exception $e) {
+        }
+        return $imageName;
+    }
+
+    public static function deleteCacheData($prefix)
+    {
+        $cacheKeys = DB::table('cache')
+            ->where('key', 'like', "%" . $prefix . "%")
+            ->pluck('key');
+        $appName = env('APP_NAME') . '_cache';
+        $remove_prefix = strtolower(str_replace('=', '', $appName));
+        $sanitizedKeys = $cacheKeys->map(function ($key) use ($remove_prefix) {
+            $key = str_replace($remove_prefix, '', $key);
+            return $key;
+        });
+        foreach ($sanitizedKeys as $key) {
+            Cache::forget($key);
+        }
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+    }
+
+    public static function get_store_data()
+    {
+        if (auth('vendor_employee')->check()) {
+            return auth('vendor_employee')->user()->store;
+        }
+        return auth('vendor')->user()->stores[0];
+    }
+
+    public static function currency_code()
+    {
+        if (!config('currency') ){
+            $currency = self::get_business_settings('currency');
+            Config::set('currency', $currency );
+        }
+        else{
+            $currency = config('currency');
+        }
+
+        return $currency;
+    }
+
+    public static function currency_symbol()
+    {
+        if (!config('currency_symbol')) {
+            $currency_symbol = Currency::where(['currency_code' => Helpers::currency_code()])->first()?->currency_symbol;
+            Config::set('currency_symbol', $currency_symbol);
+        } else {
+            $currency_symbol = config('currency_symbol');
+        }
+        return $currency_symbol;
+    }
+
+    public static function get_store_id()
+    {
+        if (auth('vendor_employee')->check()) {
+            return auth('vendor_employee')->user()->store->id;
+        }
+        return auth('vendor')->user()->stores[0]->id;
+    }
+
+    public static function get_loggedin_user()
+    {
+        if (auth('vendor')->check()) {
+            return auth('vendor')->user();
+        } else if (auth('vendor_employee')->check()) {
+            return auth('vendor_employee')->user();
+        }
+        return 0;
+    }
+
 }
