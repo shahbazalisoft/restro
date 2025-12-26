@@ -21,4 +21,5 @@ Route::middleware(['web', 'vendor'])->prefix('vendor')->as('vendor.')->group(fun
         Route::post('update', 'update')->name('update');
         Route::post('settings-password', 'settings_password_update')->name('settings-password');
     });
+    
 });
