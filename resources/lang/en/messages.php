@@ -8961,4 +8961,6 @@ Smartly or Earn. ',
   'Are you sure ' => 'Are you sure ',
   'Are you sure  ' => 'Are you sure  ',
   'You have new trip  Check Please.' => 'You have new trip  Check Please.',
+  'vendor_pasword_updated_successfully' => 'Vendor pasword updated successfully',
+  'The confirm password field is required.' => 'The confirm password field is required.',
 );

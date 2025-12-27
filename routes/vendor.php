@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Vendor\ConversationController;
 use App\Http\Controllers\Vendor\DashboardController;
+use App\Http\Controllers\Vendor\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 

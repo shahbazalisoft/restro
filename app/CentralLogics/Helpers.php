@@ -341,4 +341,14 @@ class Helpers
         return 0;
     }
 
+    public static function get_vendor_data()
+    {
+        if (auth('vendor')->check()) {
+            return auth('vendor')->user();
+        } else if (auth('vendor_employee')->check()) {
+            return auth('vendor_employee')->user()->vendor;
+        }
+        return 0;
+    }
+
 }

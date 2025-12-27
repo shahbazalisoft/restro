@@ -78,20 +78,20 @@
                         <li
                             class="navbar-vertical-aside-has-menu {{ Request::is('vendor-panel/order*') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:"
-                                title="{{ translate('messages.orders') }}">
+                                title="{{ translate('messages.menu') }}">
                                 <i class="tio-shopping-cart nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                    {{ translate('messages.orders') }}
+                                    {{ translate('messages.menu') }}
                                 </span>
                             </a>
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
                                 style="display: {{ Request::is('vendor-panel/order*') ? 'block' : 'none' }}">
                                 <li class="nav-item {{ Request::is('vendor-panel/order/list/all') ? 'active' : '' }}">
                                     <a class="nav-link" href=""
-                                        title="{{ translate('messages.all_orders') }}">
+                                        title="{{ translate('messages.menu') }}">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate sidebar--badge-container">
-                                            {{ translate('messages.all') }}
+                                            {{ translate('messages.menu') }}
                                             <span class="badge badge-soft-info badge-pill ml-1">
                                                 1
                                             </span>
@@ -101,25 +101,11 @@
                                 <li
                                     class="nav-item {{ Request::is('vendor-panel/order/list/pending') ? 'active' : '' }}">
                                     <a class="nav-link " href=""
-                                        title="{{ translate('messages.pending_orders') }}">
+                                        title="{{ translate('messages.menu') }}">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate sidebar--badge-container">
-                                            {{ translate('messages.pending') }}
+                                            {{ translate('messages.menu') }}
                                             {{ config('order_confirmation_model') == 'store' || \App\CentralLogics\Helpers::get_store_data()->sub_self_delivery ? '' : translate('messages.take_away') }}
-                                            <span class="badge badge-soft-success badge-pill ml-1">
-                                                1
-                                            </span>
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li
-                                    class="nav-item {{ Request::is('vendor-panel/order/list/confirmed') ? 'active' : '' }}">
-                                    <a class="nav-link " href=""
-                                        title="{{ translate('messages.confirmed_orders') }}">
-                                        <span class="tio-circle nav-indicator-icon"></span>
-                                        <span class="text-truncate sidebar--badge-container">
-                                            {{ translate('messages.confirmed') }}
                                             <span class="badge badge-soft-success badge-pill ml-1">
                                                 1
                                             </span>
