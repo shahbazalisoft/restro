@@ -14,6 +14,7 @@ Route::middleware(['web', 'vendor'])->prefix('vendor')->as('vendor.')->group(fun
         Route::get('store-token', 'updateDeviceToken')->name('store.token');
         Route::get('order-stats', 'order_stats')->name('dashboard.order-stats');
     });
+    
     Route::get('lang/{locale}', [LanguageController::class, 'lang'])->name('lang');
 
     Route::prefix('profile')->as('profile.')->middleware(['module:profile','subscription:profile'])->controller(ProfileController::class)->group(function () {
