@@ -1,9 +1,8 @@
-@extends('layouts.admin.app')
+@extends('layouts.vendor.app')
 
-@section('title',translate('messages.Sub Menu'))
+@section('title', translate('messages.sub_menu'))
 
 @push('css_or_js')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
 @section('content')
@@ -15,7 +14,7 @@
                     <img src="{{asset('public/assets/admin/img/edit.png')}}" class="w--20" alt="">
                 </span>
                 <span>
-                    {{translate('messages.add_new_sub_category')}}
+                    {{translate('messages.sub_menu')}}
                 </span>
             </h1>
         </div>
@@ -23,7 +22,7 @@
         <div class="card mt-2">
             <div class="card-header py-2 border-0">
                 <div class="search--button-wrapper">
-                    <h5 class="card-title">{{translate('messages.sub_category_list')}}<span class="badge badge-soft-dark ml-2" id="itemCount">{{$categories->total()}}</span></h5>
+                    <h5 class="card-title">{{translate('messages.sub_menu_list')}}<span class="badge badge-soft-dark ml-2" id="itemCount">{{$categories->total()}}</span></h5>
 
                     <form   class="search-form">
                         <!-- Search -->
@@ -38,6 +37,11 @@
                     @if(request()->get('search'))
                     <button type="reset" class="btn btn--primary ml-2 location-reload-to-category" data-url="{{url()->full()}}">{{translate('messages.reset')}}</button>
                     @endif
+                    <div>
+                        <button type="button" class="btn btn--primary font-regular" data-bs-toggle="modal"
+                            data-bs-target="#new_sub_menu" onclick="openModal()"><i
+                                class="tio-add-circle-outlined"></i>{{ translate('messages.New_Sub_Menu') }}</button>
+                    </div>
                     <!-- Unfold -->
                 </div>
             </div>
@@ -55,11 +59,9 @@
                         <thead class="thead-light">
                             <tr>
                                 <th class="border-0">{{translate('sl')}}</th>
-                                <th class="border-0">{{translate('messages.id')}}</th>
                                 <th class="border-0 w--1">{{translate('messages.main_category')}}</th>
                                 <th class="border-0 text-center">{{translate('messages.sub_category')}}</th>
                                 <th class="border-0 text-center">{{translate('messages.status')}}</th>
-                                <th class="border-0 text-center">{{translate('messages.featured')}}</th>
                                 <th class="border-0 text-center">{{translate('messages.priority')}}</th>
                                 <th class="border-0 text-center">{{translate('messages.action')}}</th>
                             </tr>
@@ -69,7 +71,6 @@
                         @foreach($categories as $key=>$category)
                             <tr>
                                 <td>{{$key+$categories->firstItem()}}</td>
-                                <td>{{$category->id}}</td>
                                 <td>
                                     <span class="d-block font-size-sm text-body">
                                         {{ $category?->parent?->name ? Str::limit($category->parent['name'],20,'...') : translate('Invalid_Category') }}
@@ -88,25 +89,7 @@
                                         </span>
                                     </label>
                                 </td>
-                                <td>
-                                        <label class="toggle-switch toggle-switch-sm"
-                                            for="featuredCheckbox{{ $category->id }}">
-                                            <input type="checkbox" data-id="featuredCheckbox{{ $category->id }}"
-                                                data-type="status"
-                                                data-image-on="{{ asset('/public/assets/admin/img/status-ons.png') }}"
-                                                data-image-off="{{ asset('/public/assets/admin/img/off-danger.png') }}"
-                                                data-title-on="{{ translate('Do you want to Featured this sub category ?') }}"
-                                                data-title-off="{{ translate('Don’t you want to Featured this sub category?') }}"
-                                                data-text-on="<p>{{ translate('If you turn on this sub category as a featured category it will show in customer app landing page.') }}"
-                                                data-text-off="<p>{{ translate('If you turn off this sub category from featured category it will not show in customer app landing page.') }}</p>"
-                                                class="toggle-switch-input dynamic-checkbox"
-                                                id="featuredCheckbox{{ $category->id }}"
-                                                {{ $category->featured ? 'checked' : '' }}>
-                                            <span class="toggle-switch-label mx-auto">
-                                                <span class="toggle-switch-indicator"></span>
-                                            </span>
-                                        </label>
-                                    </td>
+                                
                                 <td>
                                     <form action="" class="priority-form">
                                         <select name="priority" id="priority" class="form-control priority-select form--control-select mx-auto {{$category->priority == 0 ? 'text-title':''}} {{$category->priority == 1 ? 'text-info':''}} {{$category->priority == 2 ? 'text-success':''}}">
@@ -118,9 +101,9 @@
                                 </td>
                                 <td>
                                     <div class="btn--container justify-content-center">
-                                             <a class="btn action-btn btn-outline-theme-dark offcanvas-trigger data-info-show" href="javascript:void(0)"
+                                             <a class="btn action-btn btn-outline-theme-dark offcanvas-trigger editBtn" href="javascript:void(0)"
                                                 data-id="{{ $category['id'] }}"
-                                                data-url="{{ route('vendor.category.edit', [$category['id']]) }}"
+                                                data-url="{{ route('vendor.category.sub-edit') }}"
 
                                             data-target="#offcanvas__categoryBtn">
                                                 <i class="tio-edit"></i>
@@ -161,10 +144,185 @@
     </div>
     <div id="offcanvasOverlay" class="offcanvas-overlay"></div>
 
+    {{-- Model Popup Start --}}
+    <div class="modal fade" id="new_sub_menu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ translate('messages.add_new_sub_menu') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="addSubMenuForm">
+                    <div class="modal-body">
+                        <input name="position" value="0" class="initial-hidden">
+                        <div class="form-group" id="new_category_group">
+                            <label class="input-label" for="default_name">{{ translate('messages.sub_menu') }} <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" name="sub_menu" id="sub_menu" class="form-control"
+                                placeholder="{{ translate('messages.new_sub_menu') }}" >
+                            <span class="text-danger errorMsg" id="name_error"></span>
+                        </div>
+
+                        <div class="form-group" id="new_category_group">
+                            <label class="input-label" for="default_image">{{ translate('messages.main_menu') }} <small
+                                    class="text-danger">*</small></label>
+                            <select name="parent_id" id="parent_id" class="form-control js-select2-custom" >
+                                <option value="" selected disabled>{{translate('Select Main Menu')}}</option>
+                                @foreach($categoryList as $cat)
+                                    <option value="{{$cat['id']}}" >{{$cat['name']}}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger errorMsg" id="parent_id_error"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-dismiss="modal">{{ translate('messages.close') }}</button>
+                        <div class="loaderBtn">
+                            <button type="submit" class="btn btn-primary" >{{ translate('messages.save_changes') }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="modalContainer"></div>
+
+    {{-- Model Popup End --}}
+
 
 
 @endsection
 
-{{-- @push('script_2')
-    <script src="{{asset('public/assets/admin')}}/js/view-pages/sub-category-index.js"></script>
-@endpush --}}
+@push('script_2')
+    {{-- <script src="{{asset('public/assets/admin')}}/js/view-pages/sub-category-index.js"></script> --}}
+    <script>
+        function openModal() {
+            $(".errorMsg").html('');
+            $('#new_sub_menu').modal('show');
+        }
+
+        $('#addSubMenuForm').on('submit', function(e) {
+            e.preventDefault();
+            $(".errorMsg").html('');
+            let sub_menu = $("#sub_menu").val().trim();
+            let parent_id = $("#parent_id").val();
+
+            if (sub_menu === "") {
+                $('#name_error').html('{{ translate('messages.sub_menu_field_is_required') }}');
+                return false;
+            }
+            if (!parent_id) {
+                $('#parent_id_error').html('{{ translate('messages.main_menu_field_is_required') }}');
+                return false;
+            }
+            let url = "{{ route('vendor.category.store') }}";
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: url,
+                type: "POST",
+                data: { name: sub_menu, parent_id: parent_id, position: 1},
+                beforeSend: function() {
+                    // $(".loaderBtn").html('<button type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...</button> </div>');
+                },
+                success: function(response) {
+                    // $(".loaderBtn").html('<button type="button" class="btn btn-primary" onClick="update_request_category()">Save changes</button>');
+
+                    if (response.status) {
+                        $("#addSubMenuForm")[0].reset();
+                        $('#new_sub_menu').modal('hide');
+                        toastr.success(response.message);
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 4000);
+                    } else {
+                        toastr.error(response.message);
+                    }
+
+                },
+                error: function (xhr) {
+                    handleValidationErrors(xhr);
+                },
+            });
+        });
+
+        function handleValidationErrors(xhr) {
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+
+                $.each(errors, function (key, value) {
+                    $('#' + key + '_error').html(value[0]);
+                });
+            } else {
+                toastr.error('Something went wrong');
+            }
+        }
+
+        $(document).on('click', '.editBtn', function () {
+            let id = $(this).data('id');
+            let url = $(this).data('url');
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: { id },
+                success: function (res) {
+                    $('#modalContainer').html(res.html);
+                    $('#edit_sub_menu').modal('show');
+                }
+            });
+        });
+        $(document).on('submit', '#editSubMenuForm', function (e) {
+            e.preventDefault();
+            $(".errorMsg").html('');
+            let sub_menu = $("#edit_name").val().trim();
+            let parent_id = $("#edit_parent_id").val();
+            let id = $("#id").val();
+
+            if (sub_menu === "") {
+                $('#edit_name_error').html('{{ translate('messages.sub_menu_field_is_required') }}');
+                return false;
+            }
+            if (!parent_id) {
+                $('#edit_parent_id_error').html('{{ translate('messages.main_menu_field_is_required') }}');
+                return false;
+            }
+            let url = "{{ route('vendor.category.sub-update') }}";
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: url,
+                type: "POST",
+                data: {id: id, name: sub_menu, parent_id: parent_id, position: 1},
+                beforeSend: function() {
+                    // $(".loaderBtn").html('<button type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...</button> </div>');
+                },
+                success: function(response) {
+                    // $(".loaderBtn").html('<button type="button" class="btn btn-primary" onClick="update_request_category()">Save changes</button>');
+
+                    if (response.status) {
+                        $("#editSubMenuForm")[0].reset();
+                        $('#edit_sub_menu').modal('hide');
+                        toastr.success(response.message);
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 4000);
+                    } else {
+                        toastr.error(response.message);
+                    }
+
+                },
+                error: function (xhr) {
+                    handleValidationErrors(xhr);
+                },
+            });
+        });
+    </script>
+@endpush
