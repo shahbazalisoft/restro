@@ -114,6 +114,7 @@ class CategoryController extends Controller
         ->latest()->paginate(config('default_pagination'));
         return view('vendor-views.category.sub-index',compact('categories'));
     }
+    
 
     // public function search(Request $request){
     //     $key = explode(' ', $request['search']);
