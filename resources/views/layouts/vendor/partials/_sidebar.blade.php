@@ -62,8 +62,16 @@
                         <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                     </li>
 
-                    <!-- Category -->
-                    @if (\App\CentralLogics\Helpers::employee_module_permission_check('category') || \App\CentralLogics\Helpers::employee_module_permission_check('sub-category'))
+                    <!-- Menu -->
+                    @if (\App\CentralLogics\Helpers::employee_module_permission_check('category'))
+                        <li
+                            class="navbar-vertical-aside-has-menu  {{ request()->input('position') == 0 && Request::is('vendor/menu') || Request::is('vendor/menu/edit*') ? 'active' : '' }}">
+                            <a class="nav-link " href=""
+                                title="{{ translate('messages.category') }}">
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                <span class="text-truncate">{{ translate('messages.item') }}</span>
+                            </a>
+                        </li>
                         <li
                             class="navbar-vertical-aside-has-menu  {{ request()->input('position') == 0 && Request::is('vendor/menu') || Request::is('vendor/menu/edit*') ? 'active' : '' }}">
                             <a class="nav-link " href="{{ route('vendor.category.index') }}"
@@ -73,7 +81,7 @@
                             </a>
                         </li>
                         <li
-                            class="navbar-vertical-aside-has-menu {{ request()->input('position') == 1 && Request::is('admin/category/add') ? 'active' : '' }}">
+                            class="navbar-vertical-aside-has-menu {{ Request::is('vendor/menu/sub-menu-list') ? 'active' : '' }}">
                             <a class="nav-link " href="{{ route('vendor.category.sub-index') }}"
                                 title="{{ translate('messages.sub_category') }}">
                                 <span class="tio-circle nav-indicator-icon"></span>
@@ -81,8 +89,9 @@
                             </a>
                         </li>
                     @endif
-                    <!-- End Category -->
-                    <!-- End banner -->
+                    <!-- End Menu -->
+
+                    <!-- Store Setting -->
                     <li class="nav-item">
                         <small class="nav-subtitle"
                             title="{{ translate('messages.business_section') }}">{{ translate('messages.business_section') }}</small>

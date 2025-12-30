@@ -6,8 +6,6 @@
 @endpush
 
 @section('content')
-
-@section('content')
     <div id="content-disable" class="content container-fluid">
         <!-- Page Header -->
         <div class="page-header">
@@ -76,7 +74,7 @@
                     <div>
                         <button type="button" class="btn btn--primary font-regular" data-bs-toggle="modal"
                             data-bs-target="#new_menu" onclick="openModal()"><i
-                                class="tio-add-circle-outlined"></i>{{ translate('messages.New_Category') }}</button>
+                                class="tio-add-circle-outlined"></i>{{ translate('messages.New_Menu') }}</button>
                     </div>
                     <!-- End Unfold -->
                 </div>

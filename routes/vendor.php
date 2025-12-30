@@ -24,12 +24,11 @@ Route::middleware(['web', 'vendor'])->prefix('vendor')->as('vendor.')->group(fun
         Route::post('store', 'store')->name('store');
         Route::get('edit/{id}', 'edit')->name('edit');
         Route::post('update/{id}', 'update')->name('update');
-        Route::get('delete', 'delete')->name('delete');
-        Route::get('status', 'status')->name('status');
-        // Route::get('update-priority/{category}', 'update_priority')->name('priority');
-
-
+        Route::delete('delete/{id}', 'distroy')->name('delete');
+        Route::get('status/{id}/{status}', 'updateStatus')->name('status');
         Route::get('sub-menu-list', 'sub_index')->name('sub-index');
+        Route::get('sub-menu/edit', 'sub_edit')->name('sub-edit');
+        Route::post('sub-menu/update', 'sub_update')->name('sub-update');
     });
     
     # Business Setting Management
