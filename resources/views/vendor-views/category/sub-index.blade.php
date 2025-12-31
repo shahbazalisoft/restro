@@ -11,7 +11,7 @@
         <div class="page-header">
             <h1 class="page-header-title">
                 <span class="page-header-icon">
-                    <img src="{{asset('public/assets/admin/img/edit.png')}}" class="w--20" alt="">
+                    <img src="{{asset('public/assets/admin/img/category.png')}}" class="w--20" alt="">
                 </span>
                 <span>
                     {{translate('messages.sub_menu')}}
@@ -35,7 +35,7 @@
                         <!-- End Search -->
                     </form>
                     @if(request()->get('search'))
-                    <button type="reset" class="btn btn--primary ml-2 location-reload-to-category" data-url="{{url()->full()}}">{{translate('messages.reset')}}</button>
+                    <button type="reset" id="reset_btn" class="btn btn--primary ml-2 location-reload-to-category" data-url="{{url()->full()}}">{{translate('messages.reset')}}</button>
                     @endif
                     <div>
                         <button type="button" class="btn btn--primary font-regular" data-bs-toggle="modal"
@@ -324,5 +324,9 @@
                 },
             });
         });
+        $('#reset_btn').click(function() {
+            $('#exampleFormControlSelect1').val(null).trigger('change');
+            $('#viewer').attr('src', "{{ asset('public/assets/admin/img/upload-img.png') }}");
+        })
     </script>
 @endpush

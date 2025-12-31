@@ -93,7 +93,7 @@
                                 </label>
                                 <div class="mt-4 text-center analyzeImageBtn_wrapper">
                                     <button type="button" class="btn btn-primary mb-3 d-flex align-items-center gap-2 opacity-1 border-0 mx-auto"
-                                        id="analyzeImageBtn" data-url="{{ route('admin.product.analyze-image-auto-fill') }}"
+                                        id="analyzeImageBtn" data-url=""
                                         data-lang="{{ \App\CentralLogics\Helpers::system_default_language() }}">
                                         <span class="ai-btn-animation d-none">
                                             <span class="gradientRect"></span>
@@ -135,7 +135,7 @@
                             <input type="text" class="form-control" id="productKeywords"
                                 placeholder="{{ translate('Tell_me_about_your_item') }}" data-role="tagsinput">
                                 <button type="button" class="btn btn-primary border-0"
-                                    id="generateTitleBtn" data-route="{{ route('admin.product.generate-title-suggestions') }}"
+                                    id="generateTitleBtn" data-route=""
                                     data-lang="en">
                                     <span class="ai-loader-animation z-2 d-none">
                                         <span class="loader-circle"></span>

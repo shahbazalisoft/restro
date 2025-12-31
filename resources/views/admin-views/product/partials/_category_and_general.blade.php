@@ -15,8 +15,7 @@
                             id="general_setup_auto_fill"
                             data-route="{{ route('admin.product.general-setup-auto-fill') }}"
                             data-error="{{ translate('Please provide an item name and description so the AI can generate a suitable data.') }}"
-                            data-restaurant-id=""
-                            data-lang="en">
+                            data-restaurant-id="" data-lang="en">
                             <div class="btn-svg-wrapper">
                                 <img width="18" height="18" class=""
                                     src="{{ asset('public/assets/admin/img/svg/blink-right-small.svg') }}"
@@ -88,10 +87,11 @@
                                         data-url="{{ url('/') }}/vendor-panel/item/get-categories?parent_id="
                                         data-id="sub-categories">
                                         <option value="">---{{ translate('messages.select') }}---</option>
-                                        @foreach($categories as $category)
-                                                <option
-                                                    value="{{$category['id']}}" {{ isset($product) && $category->id==$product_category[0]->id ? 'selected' : ''}} >{{$category['name']}}</option>
-                                            @endforeach
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category['id'] }}"
+                                                {{ isset($product) && $category->id == $product_category[0]->id ? 'selected' : '' }}>
+                                                {{ $category['name'] }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -125,8 +125,27 @@
 
 
                         </div>
+                        <div class="col-sm-6 col-lg-{{ $column }}">
 
-                        @if (Config::get('module.current_module_type') == 'food')
+
+                            <div class="form-group mb-0 error-wrapper">
+                                <label class="input-label"
+                                    for="exampleFormControlSelect1">{{ translate('messages.Seaech_Tags') }}<span
+                                        class="form-label-secondary" data-toggle="tooltip" data-placement="right"
+                                        data-original-title="{{ translate('messages.add_keywords_customers_may_use_when_searching_for_this_product') }}"><img
+                                            src="{{ asset('/public/assets/admin/img/info-circle.svg') }}"
+                                            alt="{{ translate('messages.add_keywords_customers_may_use_when_searching_for_this_product') }}"></span></label>
+
+                                <input type="text" class="form-control" id="tags" name="tags"
+                                    placeholder="{{ translate('messages.search_tags') }}"
+                                    @if (isset($product)) value="@foreach ($product->tags as $c) {{ $c->tag . ',' }} @endforeach" @endif
+                                    data-role="tagsinput">
+                            </div>
+
+
+                        </div>
+
+                        {{-- @if (Config::get('module.current_module_type') == 'food') --}}
                             <div class="col-sm-6 col-lg-{{ $column }}" id="veg_input">
                                 <div class="form-group mb-0 error-wrapper">
                                     <label class="input-label"
@@ -144,7 +163,7 @@
                                     </select>
                                 </div>
                             </div>
-                        @endif
+                        {{-- @endif --}}
 
 
 
@@ -195,27 +214,6 @@
                                 </div>
                             </div>
                         @endif
-                        @if (Config::get('module.current_module_type') != 'food')
-
-                            <div class="col-sm-6 col-lg-{{ $column }}" id="unit_input">
-                                <div class="form-group mb-0 error-wrapper">
-                                    <label class="input-label text-capitalize"
-                                        for="unit">{{ translate('messages.unit') }}</label>
-                                    <select name="unit" id="unit"
-                                        data-placeholder="{{ translate('messages.select_unit') }}"
-                                        class="form-control js-select2-custom">
-                                        @foreach (\App\Models\Unit::get(['id', 'unit']) as $unit)
-                                            <option value="{{ $unit->id }}"
-                                                {{ isset($product) && $unit->id == $product->unit_id ? 'selected' : '' }}>
-                                                {{ $unit->unit }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        @endif
-
-
-
 
                         @if (Config::get('module.current_module_type') == 'grocery' || Config::get('module.current_module_type') == 'food')
                             @if (isset($temp_product) && $temp_product == 1)
@@ -239,7 +237,7 @@
                                     class="form-control multiple-select2"
                                     data-placeholder="{{ translate('messages.Type your content and press enter') }}"
                                     multiple>
-                                    @php($nutritions = \App\Models\Nutrition::select(['id','nutrition'])->get() ?? [])
+                                    @php($nutritions = \App\Models\Nutrition::select(['id', 'nutrition'])->get() ?? [])
                                     @foreach ($nutritions as $nutrition)
                                         <option
                                             {{ $product_nutritions && $product_nutritions->contains($nutrition->id) ? 'selected' : '' }}
@@ -261,7 +259,7 @@
                                 <select name="allergies[]" class="form-control multiple-select2" id="allergy_input"
                                     data-placeholder="{{ translate('messages.Type your content and press enter') }}"
                                     multiple>
-                                    @php($allergies = \App\Models\Allergy::select(['id','allergy'])->get() ?? [])
+                                    @php($allergies = \App\Models\Allergy::select(['id', 'allergy'])->get() ?? [])
 
                                     @foreach ($allergies as $allergy)
                                         <option
@@ -272,79 +270,15 @@
                             </div>
                         @endif
 
-
-
-                        @if (Config::get('module.current_module_type') == 'grocery' || Config::get('module.current_module_type') == 'food')
-                            <div class="col-sm-6 col-lg-4 error-wrapper" id="halal">
-                                <div class="form-check mb-sm-2 pb-sm-1">
-                                    <input class="form-check-input" name="is_halal" type="checkbox" value="1"
-                                        id="is_halal"
-                                        {{ isset($product) && $product->is_halal == 1 ? 'checked' : (isset($temp_product) && $temp_product == 1 && $product->is_halal == 1 ? 'checked' : '') }}>
-                                    <label class="form-check-label" for="is_halal">
-                                        {{ translate('messages.Is_It_Halal') }}
-                                    </label>
-                                </div>
-                            </div>
-                        @endif
-                        @if (Config::get('module.current_module_type') == 'pharmacy')
-                            <div class="col-sm-6 col-lg--6 error-wrapper" id="generic_name">
-                                <label class="input-label" for="sub-categories">
-                                    {{ translate('generic_name') }}
-                                    <span class="input-label-secondary"
-                                        title="{{ translate('Specify the medicine`s active ingredient that makes it work') }}"
-                                        data-toggle="tooltip">
-                                        <i class="tio-info-outined"></i>
-                                    </span>
+                        <div class="col-sm-6 col-lg-4 error-wrapper" id="organic">
+                            <div class="form-check mb-sm-2 pb-sm-1">
+                                <input class="form-check-input" name="organic" type="checkbox" value="1"
+                                    id="is_organic" {{ isset($product) && $product->organic == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label" for="is_organic">
+                                    {{ translate('messages.is_organic') }}
                                 </label>
-                                <div class="dropdown suggestion_dropdown">
-                                    <input type="text" id="generic_name_input"
-                                        value="{{ (isset($temp_product) && $temp_product == 1 ? \App\Models\GenericName::where('id', json_decode($product?->generic_ids))->first()?->generic_name : isset($product)) ? $product?->generic->pluck('generic_name')->first() : '' }}"
-                                        class="form-control" name="generic_name" autocomplete="off">
-                                    @php($generic_names = \App\Models\GenericName::select(['id','generic_name'])->get() ?? [])
-                                    @if (count($generic_names) > 0)
-                                        <div class="dropdown-menu">
-                                            @foreach ($generic_names ?? [] as $generic_name)
-                                                <div class="dropdown-item">{{ $generic_name->generic_name }}</div>
-                                            @endforeach
-                                        </div>
-                                    @endif
-                                </div>
                             </div>
-
-                            <div class="col-sm-6 col-lg-4 error-wrapper" id="basic">
-                                <div class="form-check mb-sm-2 pb-sm-1">
-                                    <input class="form-check-input" name="basic" type="checkbox" value="1"
-                                        id="is_basic_medicine"
-                                        {{ isset($product) && $product->pharmacy_item_details?->is_basic == 1 ? 'checked' : (isset($temp_product) && $temp_product == 1 && $product->basic == 1 ? 'checked' : '') }}>
-                                    <label class="form-check-label" for="is_basic_medicine">
-                                        {{ translate('messages.Is_Basic_Medicine') }}
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 col-lg-4 error-wrapper" id="is_prescription_required">
-                                <div class="form-check mb-sm-2 pb-sm-1">
-                                    <input class="form-check-input" name="is_prescription_required" type="checkbox"
-                                        value="1" id="prescription_required"
-                                        {{ isset($product) && $product->pharmacy_item_details?->is_prescription_required == 1 ? 'checked' : (isset($temp_product) && $temp_product == 1 && $product->is_prescription_required == 1 ? 'checked' : '') }}>
-                                    <label class="form-check-label" for="prescription_required">
-                                        {{ translate('messages.is_prescription_required') }}
-                                    </label>
-                                </div>
-                            </div>
-                        @endif
-                        @if (Config::get('module.current_module_type') == 'grocery')
-                            <div class="col-sm-6 col-lg-4 error-wrapper" id="organic">
-                                <div class="form-check mb-sm-2 pb-sm-1">
-                                    <input class="form-check-input" name="organic" type="checkbox" value="1"
-                                        id="is_organic"
-                                        {{ isset($product) && $product->organic == 1 ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="is_organic">
-                                        {{ translate('messages.is_organic') }}
-                                    </label>
-                                </div>
-                            </div>
-                        @endif
+                        </div>
 
 
                     </div>
@@ -401,8 +335,8 @@
                                         <label class="input-label"
                                             for="exampleFormControlSelect1">{{ translate('messages.addon') }}<span
                                                 class="input-label-secondary"></span></label>
-                                        <select name="addon_ids[]" class="form-control js-select2-custom" id="add_on"
-                                            multiple="multiple">
+                                        <select name="addon_ids[]" class="form-control js-select2-custom"
+                                            id="add_on" multiple="multiple">
                                             @foreach (\App\Models\AddOn::where('store_id', \App\CentralLogics\Helpers::get_store_id())->orderBy('name')->get() as $addon)
                                                 <option value="{{ $addon['id'] }}"
                                                     {{ isset($product) && in_array($addon->id, json_decode($product['add_ons'], true)) ? 'selected' : '' }}>
@@ -469,7 +403,7 @@
 @endif
 
 
-<div class="col-lg-12">
+{{-- <div class="col-lg-12">
     <div class="general_wrapper">
         <div class="outline-wrapper">
             <div class="card shadow--card-2 border-0 bg-animate">
@@ -504,4 +438,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

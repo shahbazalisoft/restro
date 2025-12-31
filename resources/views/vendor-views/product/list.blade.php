@@ -43,23 +43,6 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="select-item">
-                            <select name="sub_category_id" class="form-control js-select2-custom set-filter" data-placeholder="{{ translate('messages.select_sub_category') }}" id="sub-categories" data-url="{{url()->full()}}" data-filter="sub_category_id">
-                                <option value="all" selected>{{translate('messages.all_sub_category')}}</option>
-                                @foreach($sub_categories as $z)
-                                <option
-                                    value="{{$z['id']}}" {{ request()?->sub_category_id == $z['id']?'selected':''}}>
-                                    {{$z['name']}}
-                                </option>
-                            @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-
-                    @if (($store_data->module->module_type == 'food') && $toggle_veg_non_veg)
-                    <!-- Veg/NonVeg filter -->
 
                 <div class="col-sm-6 col-md-4">
                     <div class="select-item">
@@ -71,7 +54,7 @@
                     </div>
                 </div>
                     <!-- End Veg/NonVeg filter -->
-                    @endif
+                    {{-- @endif --}}
                 </div>
             </div>
 
@@ -124,14 +107,12 @@
                             <th class="border-0">{{translate('messages.#')}}</th>
                             <th class="border-0 w-20p">{{translate('messages.name')}}</th>
                             <th class="border-0 w-20p">{{translate('messages.category')}}</th>
-                            @if ($store_data->module->module_type != 'food')
-                            <th class="border-0 w-20p">{{translate('messages.quantity')}}</th>
-                            @endif
+                            
                             <th class="border-0">{{translate('messages.price')}}</th>
                             <th class="border-0 text-center">{{translate('messages.Recommended')}}</th>
-                             @if ($productWiseTax)
+                             {{-- @if ($productWiseTax) --}}
                             <th  class="border-0 ">{{ translate('messages.Vat/Tax') }}</th>
-                            @endif
+                            {{-- @endif --}}
                             <th class="border-0 text-center">{{translate('messages.status')}}</th>
                             <th class="border-0 text-center">{{translate('messages.action')}}</th>
                         </tr>
@@ -153,14 +134,7 @@
                             <td>
                             {{Str::limit($item->category?$item->category->name:translate('messages.category_deleted'),20,'...')}}
                             </td>
-                            @if ($store_data->module->module_type != 'food')
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <h5 class="text-hover-primary fw-medium mb-0">{{$item->stock}}</h5>
-                                    <span data-toggle="modal"  data-id="{{ $item->id }}"  data-target="#update-quantity" class="text-primary tio-add-circle fs-22 cursor-pointer update-quantity"></span>
-                                </div>
-                            </td>
-                            @endif
+                            
                             <td>
                                 <div class="mw--85px">
                                     {{\App\CentralLogics\Helpers::format_currency($item['price'])}}
@@ -179,20 +153,11 @@
                                 </div>
                             </td>
 
-                              @if ($productWiseTax)
+                              {{-- @if ($productWiseTax) --}}
                                 <td>
-                                    <span class="d-block font-size-sm text-body">
-                                        @forelse ($item?->taxVats?->pluck('tax.name', 'tax.tax_rate')->toArray() as $key => $tax)
-                                            <span> {{ $tax }} : <span class="font-bold">
-                                                    ({{ $key }}%)
-                                                </span> </span>
-                                            <br>
-                                        @empty
-                                            <span> {{ translate('messages.no_tax') }} </span>
-                                        @endforelse
-                                    </span>
+                                    <span> {{ translate('messages.no_tax') }} </span>
                                 </td>
-                                @endif
+                                {{-- @endif --}}
 
 
 

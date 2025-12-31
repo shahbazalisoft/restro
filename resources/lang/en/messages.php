@@ -9011,4 +9011,5 @@ Smartly or Earn. ',
   'main_menu_field_is_required' => 'Main menu field is required',
   'edit_sub_menu' => 'Edit sub menu',
   'New_Menu' => 'New Menu',
+  'add_keywords_customers_may_use_when_searching_for_this_product' => 'Add keywords customers may use when searching for this product',
 );

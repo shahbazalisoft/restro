@@ -85,7 +85,7 @@
 
                            <div class="error-wrapper">
                                <div class="outline-wrapper">
-                                    <textarea type="text" rows="5" name="description[]" maxlength="1200" id="description-default" class="form-control ckeditor min-height-154px" required>{{ $product?->getRawOriginal('description') ?? old('description.0') }}</textarea>
+                                    <textarea type="text" rows="3" name="description[]" maxlength="1200" id="description-default" class="form-control ckeditor min-height-154px" required>{{ $product?->getRawOriginal('description') ?? old('description.0') }}</textarea>
                                </div>
                            </div>
 

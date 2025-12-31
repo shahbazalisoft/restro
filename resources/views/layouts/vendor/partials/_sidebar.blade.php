@@ -63,15 +63,18 @@
                     </li>
 
                     <!-- Menu -->
-                    @if (\App\CentralLogics\Helpers::employee_module_permission_check('category'))
+                    @if (\App\CentralLogics\Helpers::employee_module_permission_check('item'))
                         <li
-                            class="navbar-vertical-aside-has-menu  {{ request()->input('position') == 0 && Request::is('vendor/menu') || Request::is('vendor/menu/edit*') ? 'active' : '' }}">
-                            <a class="nav-link " href=""
+                            class="navbar-vertical-aside-has-menu  {{ Request::is('vendor-panel/item/list') ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('vendor.item.list') }}"
                                 title="{{ translate('messages.category') }}">
                                 <span class="tio-circle nav-indicator-icon"></span>
-                                <span class="text-truncate">{{ translate('messages.item') }}</span>
+                                <span class="text-truncate">{{ translate('messages.items') }}</span>
                             </a>
                         </li>
+                    @endif
+                    @if (\App\CentralLogics\Helpers::employee_module_permission_check('category'))
+                        
                         <li
                             class="navbar-vertical-aside-has-menu  {{ request()->input('position') == 0 && Request::is('vendor/menu') || Request::is('vendor/menu/edit*') ? 'active' : '' }}">
                             <a class="nav-link " href="{{ route('vendor.category.index') }}"

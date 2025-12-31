@@ -756,4 +756,55 @@ class Helpers
         return $data;
     }
 
+    public static function system_default_language()
+    {
+        $languages = self::get_business_settings('system_language');
+        $lang = 'en';
+
+        foreach ($languages as $key => $language) {
+            if ($language['default']) {
+                $lang = $language['code'];
+            }
+        }
+        return $lang;
+    }
+
+    public static function combinations($arrays)
+    {
+        $result = [[]];
+        foreach ($arrays as $property => $property_values) {
+            $tmp = [];
+            foreach ($result as $result_item) {
+                foreach ($property_values as $property_value) {
+                    $tmp[] = array_merge($result_item, [$property => $property_value]);
+                }
+            }
+            $result = $tmp;
+        }
+        return $result;
+    }
+    public static function check_and_delete(string $dir, $old_image)
+    {
+
+        try {
+            if (Storage::disk('public')->exists($dir . $old_image)) {
+                Storage::disk('public')->delete($dir . $old_image);
+            }
+            // if (Storage::disk('s3')->exists($dir . $old_image)) {
+            //     Storage::disk('s3')->delete($dir . $old_image);
+            // }
+        } catch (\Exception $e) {
+        }
+
+        return true;
+    }
+    public static function error_processor($validator)
+    {
+        $err_keeper = [];
+        foreach ($validator->errors()->getMessages() as $index => $error) {
+            array_push($err_keeper, ['code' => $index, 'message' => translate($error[0])]);
+        }
+        return $err_keeper;
+    }
+
 }
