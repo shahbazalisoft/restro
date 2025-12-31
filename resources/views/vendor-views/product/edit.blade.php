@@ -9,8 +9,7 @@
 @endpush
 
 @section('content')
-    @php($module_type = \App\CentralLogics\Helpers::get_store_data()->module->module_type)
-    @php(Config::set('module.current_module_type', $module_type))
+    
     @php($openai_config = \App\CentralLogics\Helpers::get_business_settings('openai_config'))
     <div class="content container-fluid">
         <!-- Page Header -->
@@ -57,7 +56,7 @@
 
             <input type="hidden" id="request_type" value="vendor">
             <input type="hidden" id="store_id" value="{{ \App\CentralLogics\Helpers::get_store_id() }}">
-            <input type="hidden" id="module_type" value="{{ $module_type }}">
+            <input type="hidden" id="module_type" value="1">
 
 
 
@@ -253,85 +252,6 @@
                     </div>
                 </div>
 
-                <div class="col-md-12" id="attribute_section">
-                    <div class="variation_wrapper">
-                        <div class="outline-wrapper">
-                            <div class="card shadow--card-2 border-0 bg-animate">
-                                <div class="card-header">
-                                    <h5 class="card-title">
-                                        <span class="card-header-icon"><i class="tio-canvas-text"></i></span>
-                                        <span>{{ translate('attribute') }}</span>
-                                    </h5>
-                                    @if (isset($openai_config) && data_get($openai_config, 'status') == 1)
-                                        <button type="button"
-                                            class="btn bg-white text-primary opacity-1 generate_btn_wrapper p-0 mb-2 other_variation_setup_auto_fill"
-                                            id="other_variation_setup_auto_fill"
-                                            data-route="{{ route('admin.product.generate-other-variation-data') }}"
-                                            data-error="{{ translate('Please provide an item name and description so the AI can generate a suitable variations.') }}"
-                                            data-lang="en">
-                                            <div class="btn-svg-wrapper">
-                                                <img width="18" height="18" class=""
-                                                    src="{{ asset('public/assets/admin/img/svg/blink-right-small.svg') }}"
-                                                    alt="">
-                                            </div>
-                                            <span class="ai-text-animation d-none" role="status">
-                                                {{ translate('Just_a_second') }}
-                                            </span>
-                                            <span class="btn-text">{{ translate('Generate') }}</span>
-                                        </button>
-                                    @endif
-                                </div>
-                                <div class="card-body pb-0">
-                                    <div class="row g-2">
-                                        <div class="col-12">
-                                            <div class="form-group mb-0">
-                                                <label class="input-label"
-                                                    for="exampleFormControlSelect1">{{ translate('messages.attribute') }}<span
-                                                        class="input-label-secondary"></span></label>
-                                                <select name="attribute_id[]" id="choice_attributes"
-                                                    class="form-control js-select2-custom" multiple="multiple">
-                                                    @foreach (\App\Models\Attribute::orderBy('name')->get() as $attribute)
-                                                        <option value="{{ $attribute['id'] }}"
-                                                            {{ in_array($attribute->id, json_decode($product['attributes'], true)) ? 'selected' : '' }}>
-                                                            {{ $attribute['name'] }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="customer_choice_options" id="customer_choice_options">
-                                                @include('vendor-views.product.partials._choices', [
-                                                    'choice_no' => json_decode($product['attributes']),
-                                                    'choice_options' => json_decode(
-                                                        $product['choice_options'],
-                                                        true),
-                                                ])
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="variant_combination" id="variant_combination">
-                                                @include(
-                                                    'vendor-views.product.partials._edit-combinations',
-                                                    [
-                                                        'combinations' => json_decode(
-                                                            $product['variations'],
-                                                            true),
-                                                        'stock' => $module_data['stock'],
-                                                    ]
-                                                )
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
                 <div class="col-12">
                     <div class="btn--container justify-content-end">
                         <button type="reset" id="reset_btn"
@@ -358,11 +278,11 @@
     <script src="{{ asset('public/assets/admin/js/AI/products/product-description-autofill.js') }}"></script>
     <script src="{{ asset('public/assets/admin/js/AI/products/general-setup-autofill.js') }}"></script>
     <script src="{{ asset('public/assets/admin/js/AI/products/product-others-autofill.js') }}"></script>
-    @if ($module_type == 'food')
+    {{-- @if ($module_type == 'food')
         <script src="{{ asset('public/assets/admin/js/AI/products/variation-setup-auto-fill.js') }}"></script>
-    @else
+    @else --}}
         <script src="{{ asset('public/assets/admin/js/AI/products/other-variation-setup-auto-fill.js') }}"></script>
-    @endif
+    {{-- @endif --}}
     <script src="{{ asset('public/assets/admin/js/AI/products/seo-section-autofill.js') }}"></script>
 
     <script src="{{ asset('public/assets/admin/js/AI/products/ai-sidebar.js') }}"></script>
@@ -376,7 +296,7 @@
     <script>
         "use strict";
 
-        mod_type = "{{ $module_type }}";
+        mod_type = "1";
 
         function add_new_option_button() {
             $('#empty-variation').hide();
@@ -552,7 +472,7 @@
             $.ajax({
                 type: "POST",
                 url: '{{ route('vendor.item.variant-combination') }}',
-                data: $('#product_form').serialize() + '&stock={{ $module_data['stock'] }}',
+                data: $('#product_form').serialize() + '&stock=1',
                 beforeSend: function() {
                     $('#loading').show();
                 },

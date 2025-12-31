@@ -9,8 +9,7 @@
 @endpush
 
 @section('content')
-    @php($module_type = \App\CentralLogics\Helpers::get_store_data()->module->module_type)
-    @php(Config::set('module.current_module_type', $module_type))
+    
     @php($openai_config = \App\CentralLogics\Helpers::get_business_settings('openai_config'))
 
     <div class="content container-fluid">
@@ -29,7 +28,7 @@
         <form id="item_form" enctype="multipart/form-data" class="custom-validation" data-ajax="true">
             <input type="hidden" id="request_type" value="vendor">
             <input type="hidden" id="store_id" value="{{ \App\CentralLogics\Helpers::get_store_id() }}">
-            <input type="hidden" id="module_type" value="{{ $module_type }}">
+            <input type="hidden" id="module_type" value="1">
 
             <div class="row g-2">
                 @includeif('admin-views.product.partials._title_and_discription')
@@ -78,13 +77,13 @@
                 @includeif('admin-views.product.partials._price_and_stock')
 
 
-                @if ($module_type == 'food')
+                {{-- @if ($module_type == 'food')
                     @includeif('admin-views.product.partials._food_variations')
                 @else
                     @includeif('admin-views.product.partials._other_variations')
-                @endif
+                @endif --}}
 
-                @includeif('admin-views.product.partials._ai_sidebar')
+                {{-- @includeif('admin-views.product.partials._ai_sidebar') --}}
 
 
 
@@ -115,11 +114,11 @@
     <script src="{{ asset('public/assets/admin/js/AI/products/product-description-autofill.js') }}"></script>
     <script src="{{ asset('public/assets/admin/js/AI/products/general-setup-autofill.js') }}"></script>
     <script src="{{ asset('public/assets/admin/js/AI/products/product-others-autofill.js') }}"></script>
-    @if ($module_type == 'food')
+    {{-- @if ($module_type == 'food') --}}
         <script src="{{ asset('public/assets/admin/js/AI/products/variation-setup-auto-fill.js') }}"></script>
-    @else
+    {{-- @else
         <script src="{{ asset('public/assets/admin/js/AI/products/other-variation-setup-auto-fill.js') }}"></script>
-    @endif
+    @endif --}}
     <script src="{{ asset('public/assets/admin/js/AI/products/seo-section-autofill.js') }}"></script>
 
     <script src="{{ asset('public/assets/admin/js/AI/products/ai-sidebar.js') }}"></script>
@@ -148,7 +147,6 @@
             return true;
         }
 
-        mod_type = "{{ $module_type }}";
 
         $(document).ready(function() {
             $("#add_new_option_button").click(function(e) {
@@ -301,30 +299,6 @@
             $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
         }
 
-        function combination_update() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                type: "POST",
-                url: '{{ route('vendor.item.variant-combination') }}',
-                data: $('#item_form').serialize() + '&stock={{ $module_data['stock'] }}',
-                beforeSend: function() {
-                    $('#loading').show();
-                },
-                success: function(data) {
-                    $('#loading').hide();
-                    $('#variant_combination').html(data.view);
-                    if (data.length < 1) {
-                        $('input[name="current_stock"]').attr("readonly", false);
-                    }
-                }
-            });
-        }
-
 
         // $('#item_form').on('keydown', function(e) {
         //         if (e.key === 'Enter') {
@@ -463,7 +437,6 @@
         $('#reset_btn').click(function() {
             $('#category_id').val(null).trigger('change');
             $('#sub-categories').val(null).trigger('change');
-            $('#unit').val(null).trigger('change');
             $('#veg').val(0).trigger('change');
             $('#addons').val(null).trigger('change');
             $('#discount_type').val(null).trigger('change');

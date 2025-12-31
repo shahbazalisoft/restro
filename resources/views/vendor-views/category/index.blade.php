@@ -38,7 +38,7 @@
                         <!-- End Search -->
                     </form>
                     @if (request()->get('search'))
-                        <button type="reset" class="btn btn--primary ml-2 location-reload-to-category"
+                        <button type="reset" id="reset_btn" class="btn btn--primary ml-2 location-reload-to-category"
                             data-url="{{ url()->full() }}">{{ translate('messages.reset') }}</button>
                     @endif
                     <!-- Unfold -->

@@ -43,7 +43,7 @@
                         </div>
 
 
-                        @if ($productWiseTax)
+                        {{-- @if ($productWiseTax)
                             <div class="col-md-3">
                                 <div class="form-group pickup-zone-tag mb-0 error-wrapper">
                                     <label class="input-label"
@@ -61,7 +61,7 @@
                                     </select>
                                 </div>
                             </div>
-                        @endif
+                        @endif --}}
 
                         <div class="col-md-3">
                             <div class="form-group mb-0 error-wrapper">
@@ -101,7 +101,7 @@
                                     placeholder="{{ translate('messages.Ex:_100') }} ">
                             </div>
                         </div>
-                        <div class="col-md-3" id="maximum_cart_quantity">
+                        {{-- <div class="col-md-3" id="maximum_cart_quantity">
                             <div class="form-group mb-0 error-wrapper">
                                 <label class="input-label"
                                     for="maximum_cart_quantity">{{ translate('messages.Maximum_Purchase_Quantity_Limit') }}
@@ -116,9 +116,9 @@
                                     placeholder="{{ translate('messages.Ex:_10') }}" class="form-control"
                                     name="maximum_cart_quantity" min="0" id="cart_quantity">
                             </div>
-                        </div>
+                        </div> --}}
 
-                        @if (Config::get('module.current_module_type') != 'food')
+                        {{-- @if (Config::get('module.current_module_type') != 'food')
                             <div class="col-sm-6 col-lg-3" id="stock_input">
                                 <div class="form-group mb-0 error-wrapper">
                                     <label class="input-label"
@@ -127,7 +127,7 @@
                                         value="{{ isset($product) ? $product->stock : '' }}" id="quantity">
                                 </div>
                             </div>
-                        @endif
+                        @endif --}}
 
 
                     </div>
