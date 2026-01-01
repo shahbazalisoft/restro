@@ -7,6 +7,7 @@ use App\Http\Controllers\Vendor\ConversationController;
 use App\Http\Controllers\Vendor\DashboardController;
 use App\Http\Controllers\Vendor\ItemController;
 use App\Http\Controllers\Vendor\ProfileController;
+use App\Http\Controllers\vendor\QrSettingsController;
 use App\Http\Controllers\Vendor\RestaurantController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,8 +75,14 @@ Route::middleware(['web', 'vendor'])->prefix('vendor')->as('vendor.')->group(fun
     });
 
     # Business Setting Management
-    Route::prefix('business-settings')->as('business-settings.')->controller(BusinessSettingsController::class)->group(function () {
-        Route::middleware(['module:store_setup', 'subscription:store_setup'])->group(function () {
+    Route::prefix('business-settings')->as('business-settings.')->group(function () {
+        # QR Management
+        Route::middleware(['module:notification_setup', 'subscription:notification_setup'])->controller(QrSettingsController::class)->group(function () {
+            Route::get('qr-setup', 'index')->name('qr-setup');
+            Route::patch('qr-setup/{id}', 'changeStatus')->name('change_status');
+        });
+
+        Route::middleware(['module:store_setup', 'subscription:store_setup'])->controller(BusinessSettingsController::class)->group(function () {
             Route::get('store-setup', 'store_index')->name('store-setup');
             Route::post('add-schedule', 'add_schedule')->name('add-schedule');
             Route::get('remove-schedule/{store_schedule}', 'remove_schedule')->name('remove-schedule');
@@ -84,7 +91,8 @@ Route::middleware(['web', 'vendor'])->prefix('vendor')->as('vendor.')->group(fun
             Route::post('update-meta-data/{store}', 'updateStoreMetaData')->name('update-meta-data');
             Route::get('toggle-settings-status/{store}/{status}/{menu}', 'store_status')->name('toggle-settings');
         });
-        Route::middleware(['module:notification_setup', 'subscription:notification_setup'])->group(function () {
+
+        Route::middleware(['module:notification_setup', 'subscription:notification_setup'])->controller(BusinessSettingsController::class)->group(function () {
             Route::get('notification-setup', 'notification_index')->name('notification-setup');
             Route::get('notification-status-change/{key}/{type}', 'notification_status_change')->name('notification_status_change');
         });

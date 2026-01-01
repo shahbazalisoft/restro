@@ -85,8 +85,6 @@
 
                 {{-- @includeif('admin-views.product.partials._ai_sidebar') --}}
 
-
-
                 <div class="col-12">
                     <div class="btn--container justify-content-end">
                         <button type="reset" id="reset_btn"
