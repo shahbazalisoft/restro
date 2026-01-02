@@ -406,12 +406,8 @@ class ItemController extends Controller
 
     public function view($id)
     {
-        $taxData = Helpers::getTaxSystemType();
-        $productWiseTax = $taxData['productWiseTax'];
-        $product = Item::with($productWiseTax ? ['taxVats.tax'] : [])->findOrFail($id);
-
-        $reviews = Review::where(['item_id' => $id])->latest()->paginate(config('default_pagination'));
-        return view('vendor-views.product.view', compact('product', 'reviews','productWiseTax'));
+        $product = Item::findOrFail($id);
+        return view('vendor-views.product.view', compact('product'));
     }
 
     public function edit(Request $request, $id)

@@ -100,9 +100,19 @@
                             title="{{ translate('messages.business_section') }}">{{ translate('messages.business_section') }}</small>
                         <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                     </li>
+                    @if (\App\CentralLogics\Helpers::employee_module_permission_check('qr-manage'))
+                        <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('vendor-panel/business-settings/qr-setup') ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('vendor.business-settings.qr-setup') }}"
+                                title="{{ translate('messages.QR_Management') }}">
+                                <span class="tio-settings nav-icon"></span>
+                                <span class="text-truncate">{{ translate('messages.QR_Management') }}</span>
+                            </a>
+                        </li>
+                    @endif
                     @if (\App\CentralLogics\Helpers::employee_module_permission_check('store_setup'))
                         <li
-                            class="nav-item {{ Request::is('vendor-panel/business-settings/store-setup') ? 'active' : '' }}">
+                            class="navbar-vertical-aside-has-menu {{ Request::is('vendor-panel/business-settings/store-setup') ? 'active' : '' }}">
                             <a class="nav-link " href="{{ route('vendor.business-settings.store-setup') }}"
                                 title="{{ translate('messages.storeConfig') }}">
                                 <span class="tio-settings nav-icon"></span>

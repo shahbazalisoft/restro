@@ -43,7 +43,7 @@ class CategoryController extends Controller
         $category = new Category();
         $category->name = $request->name;
         $category->position = $request->position;
-        $category->image = Helpers::upload('category/', 'png', $request->file('image'));;
+        $category->image = Helpers::upload('category/', 'png', $request->file('image'));
         $category->store_id = $store->id;
         $category->module_id = 1;
         $category->parent_id = $request->parent_id == null ? 0 : $request->parent_id;
