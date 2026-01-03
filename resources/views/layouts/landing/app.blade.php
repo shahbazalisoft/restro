@@ -65,6 +65,9 @@
                             <a id="home-link" href="{{route('home')}}" class="{{ Request::is('/') ? 'active' : '' }}"><span>{{ translate('messages.home') }}</span></a>
                         </li>
                         <li>
+                            <a href="{{route('home-menu')}}" class="{{ Request::is('menu') ? 'active' : '' }}"><span>{{ translate('messages.menu') }}</span></a>
+                        </li>
+                        <li>
                             <a href="{{route('about-us')}}" class="{{ Request::is('about-us') ? 'active' : '' }}"><span>{{ translate('messages.about_us') }}</span></a>
                         </li>
                         <li>

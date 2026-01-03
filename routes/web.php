@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MenuController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('', 'index')->name('home');
@@ -15,6 +16,8 @@ Route::controller(HomeController::class)->group(function () {
 
 
 });
+
+Route::get('menu', [MenuController::class, 'index'])->name('home-menu');
 
 Route::prefix('vendor')->as('restaurant.')->group(function () {
     Route::controller(HomeController::class)->group(function () {
