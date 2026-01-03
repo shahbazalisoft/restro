@@ -102,6 +102,16 @@
                     </li>
                     @if (\App\CentralLogics\Helpers::employee_module_permission_check('qr-manage'))
                         <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('vendor-panel/business-settings/menu-template') ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('vendor.business-settings.menu-template') }}"
+                                title="{{ translate('messages.menu-template') }}">
+                                <span class="tio-settings nav-icon"></span>
+                                <span class="text-truncate">{{ translate('messages.menu_template') }}</span>
+                            </a>
+                        </li>
+                    @endif
+                    @if (\App\CentralLogics\Helpers::employee_module_permission_check('qr-manage'))
+                        <li
                             class="navbar-vertical-aside-has-menu {{ Request::is('vendor-panel/business-settings/qr-setup') ? 'active' : '' }}">
                             <a class="nav-link " href="{{ route('vendor.business-settings.qr-setup') }}"
                                 title="{{ translate('messages.QR_Management') }}">

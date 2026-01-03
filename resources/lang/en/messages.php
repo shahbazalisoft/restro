@@ -9024,4 +9024,6 @@ Smartly or Earn. ',
   'New_QR-Scanner_activated_now!' => 'New QR-Scanner activated now!',
   'preview_qr' => 'Preview qr',
   'preview_qr_scanner' => 'Preview qr scanner',
+  'menu-template' => 'Menu-template',
+  'menu_template' => 'Menu template',
 );

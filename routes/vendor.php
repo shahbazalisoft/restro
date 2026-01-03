@@ -6,6 +6,7 @@ use App\Http\Controllers\Vendor\CategoryController;
 use App\Http\Controllers\Vendor\ConversationController;
 use App\Http\Controllers\Vendor\DashboardController;
 use App\Http\Controllers\Vendor\ItemController;
+use App\Http\Controllers\vendor\MenuSettingsController;
 use App\Http\Controllers\Vendor\ProfileController;
 use App\Http\Controllers\vendor\QrSettingsController;
 use App\Http\Controllers\Vendor\RestaurantController;
@@ -76,6 +77,11 @@ Route::middleware(['web', 'vendor'])->prefix('vendor')->as('vendor.')->group(fun
 
     # Business Setting Management
     Route::prefix('business-settings')->as('business-settings.')->group(function () {
+        # Menu template setting
+        Route::middleware(['module:notification_setup', 'subscription:notification_setup'])->controller(MenuSettingsController::class)->group(function () {
+            Route::get('menu-template', 'index')->name('menu-template');
+            Route::patch('menu-template/{id}', 'changeStatus')->name('menu_change_status');
+        });
         # QR Management
         Route::middleware(['module:notification_setup', 'subscription:notification_setup'])->controller(QrSettingsController::class)->group(function () {
             Route::get('qr-setup', 'index')->name('qr-setup');
